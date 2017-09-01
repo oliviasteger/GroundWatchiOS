@@ -7,10 +7,17 @@
     "test": "jest"
   },
   "dependencies": {
+    "cloudboost": "^2.0.264",
+    "create-react-class": "^15.6.0",
+    "prop-types": "^15.5.10",
     "radio-button-react-native": "^1.1.6",
     "react": "16.0.0-alpha.12",
     "react-native": "0.45.1",
-    "react-native-radio-buttons": "^1.0.0"
+    "react-native-extended-stylesheet": "^0.6.0",
+    "react-native-maps": "^0.16.2",
+    "react-native-maps-google": "^1.1.4",
+    "react-native-radio-buttons": "^1.0.0",
+    "react-native-simple-radio-button": "^2.6.1"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",
