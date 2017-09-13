@@ -23,14 +23,14 @@ var latitude;
 var longitude;
 var index = 0;
 var marker;
-var markers;
+var markerlist;
 export default class GroundWatchiOS extends Component {
   componentWillMount() {
     var query = new CB.CloudQuery("report");
     query.setLimit(10000);
     query.find({
       success: function(list) {
-        markers = [];
+        markerlist = [];
         for (var i = 0; i < list.length; i++) {
           var lat = list[i].document.latitude;
           var lon = list[i].document.longitude;
@@ -49,7 +49,7 @@ export default class GroundWatchiOS extends Component {
                 longitude: lon,
                 title: name
               };
-              markers.push(marker);
+              markerlist.push(marker);
             }
             else if (type == "fa fa-dot-circle-o") {
               index ++;
@@ -59,7 +59,7 @@ export default class GroundWatchiOS extends Component {
                 longitude: lon,
                 title: name
               };
-              markers.push(marker);
+              markerlist.push(marker);
             }
             else if (type == "fa fa-tint") {
               index ++;
@@ -69,7 +69,7 @@ export default class GroundWatchiOS extends Component {
                 longitude: lon,
                 title: name
               };
-              markers.push(marker);
+              markerlist.push(marker);
             }
             else if (type == "fa fa-crosshairs") {
               index ++;
@@ -79,7 +79,7 @@ export default class GroundWatchiOS extends Component {
                 longitude: lon,
                 title: name
               };
-              markers.push(marker);
+              markerlist.push(marker);
             }
             else if (type == "fa fa-bolt") {
               index ++;
@@ -89,7 +89,7 @@ export default class GroundWatchiOS extends Component {
                 longitude: lon,
                 title: name
               };
-              markers.push(marker);
+              markerlist.push(marker);
             }
             else {
               index ++;
@@ -99,7 +99,7 @@ export default class GroundWatchiOS extends Component {
                 longitude: lon,
                 title: name
               };
-              markers.push(marker);
+              markerlist.push(marker);
             }
           });
         }
