@@ -225,4 +225,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('GroundWatchiOS', () => GroundWatchiOS);
+AppRegistry.registerComponent('main', () => GroundWatchiOS);

@@ -1,12 +1,10 @@
 {
   "name": "GroundWatchiOS",
-  "displayName": "GroundWatchiOS"
-},
-{
+  "displayName": "GroundWatchiOS",
   "expo": {
     "name": "GroundWatchiOS",
     "slug": "GroundWatchiOS",
-    "sdkVersion": "18.0.0",
+    "sdkVersion": "20.0.0",
     "orientation" : "portrait",
   }
 }
