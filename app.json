@@ -1,4 +1,11 @@
 {
   "name": "GroundWatchiOS",
   "displayName": "GroundWatchiOS"
+},
+{
+  "expo": {
+    "name": "GroundWatchiOS",
+    "slug": "GroundWatchiOS",
+    "sdkVersion": "18.0.0"
+  }
 }
