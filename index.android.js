@@ -15,6 +15,6 @@ import MapView from 'react-native-maps';
 import * as CB from 'cloudboost';
 import PropTypes from 'prop-types';
 var createReactClass = require('create-react-class');
-import GroundWatchiOS from './app.js';
+import GroundWatchiOS from './index.js';
 
 AppRegistry.registerComponent('GroundWatchiOS', () => GroundWatchiOS);

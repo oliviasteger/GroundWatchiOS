@@ -6,7 +6,6 @@
   "expo": {
     "name": "GroundWatchiOS",
     "slug": "GroundWatchiOS",
-    "sdkVersion": "18.0.0",
-    "orientation" : "portrait",
+    "sdkVersion": "18.0.0"
   }
 }
