@@ -24,7 +24,35 @@ var longitude;
 var index = 0;
 var marker;
 var markerlist;
+
 export default class GroundWatchiOS extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+      latitude: null,
+      longitude: null,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    );
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
+
   componentWillMount() {
     var query = new CB.CloudQuery("report");
     query.setLimit(10000);
@@ -45,9 +73,9 @@ export default class GroundWatchiOS extends Component {
               index ++;
               name = 'marker' + index;
               marker = {
-                latitude: lat,
-                longitude: lon,
-                title: name
+                latlng: latlong,
+                title: name,
+                description: name
               };
               markerlist.push(marker);
             }
@@ -55,9 +83,9 @@ export default class GroundWatchiOS extends Component {
               index ++;
               name = 'marker' + index;
               marker = {
-                latitude: lat,
-                longitude: lon,
-                title: name
+                latlng: latlong,
+                title: name,
+                description: name
               };
               markerlist.push(marker);
             }
@@ -65,9 +93,9 @@ export default class GroundWatchiOS extends Component {
               index ++;
               name = 'marker' + index;
               marker = {
-                latitude: lat,
-                longitude: lon,
-                title: name
+                latlng: latlong,
+                title: name,
+                description: name
               };
               markerlist.push(marker);
             }
@@ -75,9 +103,9 @@ export default class GroundWatchiOS extends Component {
               index ++;
               name = 'marker' + index;
               marker = {
-                latitude: lat,
-                longitude: lon,
-                title: name
+                latlng: latlong,
+                title: name,
+                description: name
               };
               markerlist.push(marker);
             }
@@ -85,9 +113,9 @@ export default class GroundWatchiOS extends Component {
               index ++;
               name = 'marker' + index;
               marker = {
-                latitude: lat,
-                longitude: lon,
-                title: name
+                latlng: latlong,
+                title: name,
+                description: name
               };
               markerlist.push(marker);
             }
@@ -95,9 +123,9 @@ export default class GroundWatchiOS extends Component {
               index ++;
               name = 'marker' + index;
               marker = {
-                latitude: lat,
-                longitude: lon,
-                title: name
+                latlng: latlong,
+                title: name,
+                description: name
               };
               markerlist.push(marker);
             }
@@ -108,10 +136,10 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("It seems that you are not connected to the internet. Please try again.")
       }
     });
+    console.log(markerlist);
   }
-
   _tearGas() {
-    console.log("You clicked tear gas.");
+
   }
   _rubberBullets() {
     console.log("You clicked tear gas.");

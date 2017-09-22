@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19003,
-  "packagerPort": 19004,
-  "packagerPid": 27153,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19002,
+  "packagerPid": 10994,
+  "expoServerNgrokUrl": "https://uv-6t5.oliviasteger.groundwatchios.exp.direct",
+  "packagerNgrokUrl": "https://packager.uv-6t5.oliviasteger.groundwatchios.exp.direct",
+  "ngrokPid": 11012
 }
