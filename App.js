@@ -138,9 +138,23 @@ export default class GroundWatchiOS extends Component {
     });
     console.log(markerlist);
   }
-  _tearGas() {
 
+  _tearGas() {
+    var lat = this.state.latitude;
+    var obj = new CB.CloudObject("report");
+    obj.set("type", "fa fa-eye");
+    obj.set("latitude", lat);
+    obj.set("longitude", this.state.longitude);
+    obj.save({
+      success: function(obj) {
+        Alert.alert("Your response has been recorded.");
+      },
+      error: function(err) {
+        Alert.alert("Please try again.")
+      }
+    });
   }
+
   _rubberBullets() {
     console.log("You clicked tear gas.");
   }
