@@ -21,6 +21,8 @@ CB.CloudApp.init('veudsushakhr', 'a4483f55-e614-44cb-a5ee-f7f62a43d39e');
 var incidents = [];
 var latitude;
 var longitude;
+var lat;
+var lon;
 var index = 0;
 var marker;
 var markerlist;
@@ -43,10 +45,18 @@ export default class GroundWatchiOS extends Component {
           longitude: position.coords.longitude,
           error: null,
         });
+        console.log(this.state,"1");
+
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
     );
+    console.log(this.state,"2");
+
+    lat = this.state.latitude;
+    lon = this.state.longitude;
+    console.log(this.state,"3");
+
   }
 
   componentWillUnmount() {
@@ -139,12 +149,13 @@ export default class GroundWatchiOS extends Component {
     console.log(markerlist);
   }
 
-  _tearGas() {
-    var lat = this.state.latitude;
+  _tearGas = () => {
+    lat = this.state.latitude;
+    lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-eye");
     obj.set("latitude", lat);
-    obj.set("longitude", this.state.longitude);
+    obj.set("longitude", lon);
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
@@ -155,20 +166,85 @@ export default class GroundWatchiOS extends Component {
     });
   }
 
-  _rubberBullets() {
-    console.log("You clicked tear gas.");
+  _rubberBullets = () => {
+    lat = this.state.latitude;
+    lon = this.state.longitude;
+    var obj = new CB.CloudObject("report");
+    obj.set("type", "fa fa-dot-circle-o");
+    obj.set("latitude", lat);
+    obj.set("longitude", lon);
+    obj.save({
+      success: function(obj) {
+        Alert.alert("Your response has been recorded.");
+      },
+      error: function(err) {
+        Alert.alert("Please try again.")
+      }
+    });
   }
-  _waterCannons() {
-    console.log("You clicked tear gas.");
+  _waterCannons = () => {
+    lat = this.state.latitude;
+    lon = this.state.longitude;
+    var obj = new CB.CloudObject("report");
+    obj.set("type", "fa fa-tint");
+    obj.set("latitude", lat);
+    obj.set("longitude", lon);
+    obj.save({
+      success: function(obj) {
+        Alert.alert("Your response has been recorded.");
+      },
+      error: function(err) {
+        Alert.alert("Please try again.")
+      }
+    });
   }
-  _guns() {
-    console.log("You clicked tear gas.");
+  _guns = () => {
+    lat = this.state.latitude;
+    lon = this.state.longitude;
+    var obj = new CB.CloudObject("report");
+    obj.set("type", "fa fa-crosshairs");
+    obj.set("latitude", lat);
+    obj.set("longitude", lon);
+    obj.save({
+      success: function(obj) {
+        Alert.alert("Your response has been recorded.");
+      },
+      error: function(err) {
+        Alert.alert("Please try again.")
+      }
+    });
   }
-  _stunGrenades() {
-    console.log("You clicked tear gas.");
+  _stunGrenades = () => {
+    lat = this.state.latitude;
+    lon = this.state.longitude;
+    var obj = new CB.CloudObject("report");
+    obj.set("type", "fa fa-bolt");
+    obj.set("latitude", lat);
+    obj.set("longitude", lon);
+    obj.save({
+      success: function(obj) {
+        Alert.alert("Your response has been recorded.");
+      },
+      error: function(err) {
+        Alert.alert("Please try again.")
+      }
+    });
   }
-  _medicNeeded() {
-    console.log("You clicked tear gas.");
+  _medicNeeded = () => {
+    lat = this.state.latitude;
+    lon = this.state.longitude;
+    var obj = new CB.CloudObject("report");
+    obj.set("type", "fa fa-plus-square");
+    obj.set("latitude", lat);
+    obj.set("longitude", lon);
+    obj.save({
+      success: function(obj) {
+        Alert.alert("Your response has been recorded.");
+      },
+      error: function(err) {
+        Alert.alert("Please try again.")
+      }
+    });
   }
 
   render() {
@@ -194,19 +270,19 @@ export default class GroundWatchiOS extends Component {
           <Button onPress={this._tearGas} title="Tear Gas" color="#FEFEFA" accessibilityLabel="Tear Gas" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Button onPress={this._rubberBullets} title="Rubber Bullets" color="#FEFEFA" accessibilityLabel="Tear Gas"/>
+          <Button onPress={this._rubberBullets} title="Rubber Bullets" color="#FEFEFA" accessibilityLabel="Rubber Bullets"/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Button onPress={this._waterCannons} title="Water Cannons" color="#FEFEFA" accessibilityLabel="Tear Gas"/>
+          <Button onPress={this._waterCannons} title="Water Cannons" color="#FEFEFA" accessibilityLabel="Water Cannons"/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Button onPress={this._guns} title="Guns" color="#FEFEFA" accessibilityLabel="Tear Gas"/>
+          <Button onPress={this._guns} title="Guns" color="#FEFEFA" accessibilityLabel="Guns"/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Button onPress={this._stunGrenades} title="Stun Grenades" color="#FEFEFA" accessibilityLabel="Tear Gas"/>
+          <Button onPress={this._stunGrenades} title="Stun Grenades" color="#FEFEFA" accessibilityLabel="Stun Grenades"/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.medic}>
-          <Button onPress={this._medicNeeded} title="Medic Needed" color="#FEFEFA" accessibilityLabel="Tear Gas"/>
+          <Button onPress={this._medicNeeded} title="Medic Needed" color="#FEFEFA" accessibilityLabel="Medic Needed"/>
         </TouchableOpacity>
         <MapView style={styles.map}>
         </MapView>
@@ -234,7 +310,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 50,
+    marginBottom: 40,
+    top: 10,
   },
   button: {
     marginLeft: 70,
@@ -244,14 +321,15 @@ const styles = StyleSheet.create({
     bottom: 20,
     borderColor: '#383838',
     backgroundColor: '#383838',
-    marginVertical: 5
+    marginVertical: 5,
+    top: 0
   },
   medic: {
     marginLeft: 70,
     width: 200,
     borderRadius: 5,
     borderWidth: 1,
-    bottom: 10,
+    bottom: 30,
     borderColor: '#ee4b28',
     backgroundColor: '#ee4b28',
     marginVertical: 5,
@@ -261,7 +339,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     width: 300,
     height: 175,
-    top: 10,
+    top: 20,
     borderRadius: 5,
     borderWidth: 0
   }
