@@ -18,7 +18,6 @@ var createReactClass = require('create-react-class');
 
 CB.CloudApp.init('veudsushakhr', 'a4483f55-e614-44cb-a5ee-f7f62a43d39e');
 
-var incidents = [];
 var latitude;
 var longitude;
 var lat;
@@ -34,7 +33,108 @@ export default class GroundWatchiOS extends Component {
       latitude: null,
       longitude: null,
       error: null,
+      markers: [],
     };
+  }
+
+  getIncidents() {
+    var query = new CB.CloudQuery("report");
+    query.setLimit(10000);
+
+    query.find({
+      success: function(list) {
+
+        for (var i = 0; i < list.length; i++) {
+          var lat = list[i].document.latitude;
+          var lon = list[i].document.longitude;
+          var latlong = {
+            "latitude": lat,
+            "longitude": lon
+          };
+          mapIncident(list, latlong, i);
+        }
+      },
+      error: function(err) {
+        Alert.alert("It seems that you are not connected to the internet. Please try again.")
+      }
+    })
+
+    mapIncident = (list, latlong, i) => {
+      var type = list[i].document.type;
+      if (type == "fa fa-eye") {
+        index ++;
+        name = 'marker' + index;
+        marker = {
+          key: name,
+          type: type,
+          coordinate: latlong,
+          title: name,
+          description: name
+        };
+      }
+      else if (type == "fa fa-dot-circle-o") {
+        index ++;
+        name = 'marker' + index;
+        marker = {
+          key: name,
+          type: type,
+          coordinate: latlong,
+          title: name,
+          description: name
+        };
+      }
+      else if (type == "fa fa-tint") {
+        index ++;
+        name = 'marker' + index;
+        marker = {
+          key: name,
+          type: type,
+          coordinate: latlong,
+          title: name,
+          description: name
+        };
+      }
+      else if (type == "fa fa-crosshairs") {
+        index ++;
+        name = 'marker' + index;
+        marker = {
+          key: name,
+          type: type,
+          coordinate: latlong,
+          title: name,
+          description: name
+        };
+      }
+      else if (type == "fa fa-bolt") {
+        index ++;
+        name = 'marker' + index;
+        marker = {
+          key: name,
+          type: type,
+          coordinate: latlong,
+          title: name,
+          description: name
+        };
+      }
+      else {
+        index ++;
+        name = 'marker' + index;
+        marker = {
+          key: name,
+          type: type,
+          coordinate: latlong,
+          title: name,
+          description: name
+        };
+      }
+      const markers = this.state.markers;
+      markers.push(marker);
+      this.setState({
+        markers: markers
+      });
+
+      console.log("marker", marker);
+    }
   }
 
   componentDidMount() {
@@ -43,110 +143,17 @@ export default class GroundWatchiOS extends Component {
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          error: null,
         });
-        console.log(this.state,"1");
 
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
     );
-    console.log(this.state,"2");
 
     lat = this.state.latitude;
     lon = this.state.longitude;
-    console.log(this.state,"3");
 
-  }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId);
-  }
-
-  componentWillMount() {
-    var query = new CB.CloudQuery("report");
-    query.setLimit(10000);
-    query.find({
-      success: function(list) {
-        markerlist = [];
-        for (var i = 0; i < list.length; i++) {
-          var lat = list[i].document.latitude;
-          var lon = list[i].document.longitude;
-          var latlong = {
-            "lat": lat,
-            "lng": lon
-          };
-          incidents.push(latlong);
-          var markers = incidents.map(function(location, i) {
-            var type = list[i].document.type;
-            if (type == "fa fa-eye") {
-              index ++;
-              name = 'marker' + index;
-              marker = {
-                latlng: latlong,
-                title: name,
-                description: name
-              };
-              markerlist.push(marker);
-            }
-            else if (type == "fa fa-dot-circle-o") {
-              index ++;
-              name = 'marker' + index;
-              marker = {
-                latlng: latlong,
-                title: name,
-                description: name
-              };
-              markerlist.push(marker);
-            }
-            else if (type == "fa fa-tint") {
-              index ++;
-              name = 'marker' + index;
-              marker = {
-                latlng: latlong,
-                title: name,
-                description: name
-              };
-              markerlist.push(marker);
-            }
-            else if (type == "fa fa-crosshairs") {
-              index ++;
-              name = 'marker' + index;
-              marker = {
-                latlng: latlong,
-                title: name,
-                description: name
-              };
-              markerlist.push(marker);
-            }
-            else if (type == "fa fa-bolt") {
-              index ++;
-              name = 'marker' + index;
-              marker = {
-                latlng: latlong,
-                title: name,
-                description: name
-              };
-              markerlist.push(marker);
-            }
-            else {
-              index ++;
-              name = 'marker' + index;
-              marker = {
-                latlng: latlong,
-                title: name,
-                description: name
-              };
-              markerlist.push(marker);
-            }
-          });
-        }
-      },
-      error: function(err) {
-        Alert.alert("It seems that you are not connected to the internet. Please try again.")
-      }
-    });
-    console.log(markerlist);
+    this.getIncidents();
   }
 
   _tearGas = () => {
@@ -164,7 +171,13 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("Please try again.")
       }
     });
+
   }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
+
 
   _rubberBullets = () => {
     lat = this.state.latitude;
@@ -285,6 +298,12 @@ export default class GroundWatchiOS extends Component {
           <Button onPress={this._medicNeeded} title="Medic Needed" color="#FEFEFA" accessibilityLabel="Medic Needed"/>
         </TouchableOpacity>
         <MapView style={styles.map}>
+        {this.state.markers.map(marker => (
+          <MapView.Marker
+            key={marker.key}
+            coordinate={marker.coordinate}
+          />
+        ))}
         </MapView>
       </ScrollView>
       </View>
