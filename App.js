@@ -347,8 +347,8 @@ const styles = StyleSheet.create({
     top: 10,
   },
   button: {
-    marginLeft: 70,
-    width: 200,
+    marginLeft: 40,
+    width: 250,
     borderRadius: 5,
     borderWidth: 1,
     bottom: 20,
@@ -358,8 +358,8 @@ const styles = StyleSheet.create({
     top: 0
   },
   medic: {
-    marginLeft: 70,
-    width: 200,
+    marginLeft: 40,
+    width: 250,
     borderRadius: 5,
     borderWidth: 1,
     bottom: 30,
