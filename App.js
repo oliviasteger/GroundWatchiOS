@@ -26,6 +26,13 @@ var index = 0;
 var marker;
 var markerlist;
 
+const eye = require("./icons/eye.png");
+const gun = require("./icons/gun.png");
+const light = require("./icons/light.png");
+const medic = require("./icons/medic.png");
+const target = require("./icons/target.png");
+const water = require("./icons/water.png");
+
 export default class GroundWatchiOS extends Component {
   constructor(props) {
       super(props);
@@ -69,7 +76,8 @@ export default class GroundWatchiOS extends Component {
           type: type,
           coordinate: latlong,
           title: name,
-          description: name
+          description: name,
+          image: eye,
         };
       }
       else if (type == "fa fa-dot-circle-o") {
@@ -80,7 +88,8 @@ export default class GroundWatchiOS extends Component {
           type: type,
           coordinate: latlong,
           title: name,
-          description: name
+          description: name,
+          image: target,
         };
       }
       else if (type == "fa fa-tint") {
@@ -91,7 +100,8 @@ export default class GroundWatchiOS extends Component {
           type: type,
           coordinate: latlong,
           title: name,
-          description: name
+          description: name,
+          image: water,
         };
       }
       else if (type == "fa fa-crosshairs") {
@@ -102,7 +112,8 @@ export default class GroundWatchiOS extends Component {
           type: type,
           coordinate: latlong,
           title: name,
-          description: name
+          description: name,
+          image: gun,
         };
       }
       else if (type == "fa fa-bolt") {
@@ -113,7 +124,8 @@ export default class GroundWatchiOS extends Component {
           type: type,
           coordinate: latlong,
           title: name,
-          description: name
+          description: name,
+          image: light,
         };
       }
       else {
@@ -124,7 +136,8 @@ export default class GroundWatchiOS extends Component {
           type: type,
           coordinate: latlong,
           title: name,
-          description: name
+          description: name,
+          image: medic,
         };
       }
       const markers = this.state.markers;
@@ -301,6 +314,7 @@ export default class GroundWatchiOS extends Component {
         {this.state.markers.map(marker => (
           <MapView.Marker
             key={marker.key}
+            image={marker.image}
             coordinate={marker.coordinate}
           />
         ))}
