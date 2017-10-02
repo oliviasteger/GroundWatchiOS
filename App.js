@@ -32,6 +32,7 @@ const light = require("./icons/light.png");
 const medic = require("./icons/medic.png");
 const target = require("./icons/target.png");
 const water = require("./icons/water.png");
+const flag = require("./icons/flag.png");
 
 export default class GroundWatchiOS extends Component {
   constructor(props) {
@@ -81,6 +82,18 @@ export default class GroundWatchiOS extends Component {
         };
       }
       else if (type == "fa fa-dot-circle-o") {
+        index ++;
+        name = 'marker' + index;
+        marker = {
+          key: name,
+          type: type,
+          coordinate: latlong,
+          title: name,
+          description: name,
+          image: target,
+        };
+      }
+      else if (type == "fa fa-flag") {
         index ++;
         name = 'marker' + index;
         marker = {
@@ -174,6 +187,24 @@ export default class GroundWatchiOS extends Component {
     lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-eye");
+    obj.set("latitude", lat);
+    obj.set("longitude", lon);
+    obj.save({
+      success: function(obj) {
+        Alert.alert("Your response has been recorded.");
+      },
+      error: function(err) {
+        Alert.alert("Please try again.")
+      }
+    });
+
+  }
+
+  _test = () => {
+    lat = this.state.latitude;
+    lon = this.state.longitude;
+    var obj = new CB.CloudObject("report");
+    obj.set("type", "fa fa-flag");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
     obj.save({
@@ -310,6 +341,9 @@ export default class GroundWatchiOS extends Component {
         <TouchableOpacity style={styles.medic}>
           <Button onPress={this._medicNeeded} title="Medic Needed" color="#FEFEFA" accessibilityLabel="Medic Needed"/>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.test}>
+          <Button onPress={this._test} title="Test" color="#FEFEFA" accessibilityLabel="Test"/>
+        </TouchableOpacity>
         <MapView style={styles.map}>
         {this.state.markers.map(marker => (
           <MapView.Marker
@@ -343,8 +377,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 40,
-    top: 10,
+    marginBottom: 20,
+    top: 8,
   },
   button: {
     marginLeft: 40,
@@ -368,10 +402,21 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     top: 0
   },
+  test: {
+    marginLeft: 40,
+    width: 250,
+    borderRadius: 5,
+    borderWidth: 1,
+    bottom: 30,
+    borderColor: '#0059b3',
+    backgroundColor: '#0059b3',
+    marginVertical: 5,
+    top: 0
+  },
   map: {
     marginLeft: 20,
     width: 300,
-    height: 175,
+    height: 150,
     top: 20,
     borderRadius: 5,
     borderWidth: 0
