@@ -181,7 +181,6 @@ export default class GroundWatchiOS extends Component {
           }
         }
     }
-    // jun (J), jul (J), jan (J),
     var query = new CB.CloudQuery("report");
     query.setLimit(10000);
     query.greaterThan('createdAt', formatted);
