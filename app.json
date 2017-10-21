@@ -6,5 +6,11 @@
     "slug": "GroundWatchiOS",
     "sdkVersion": "20.0.0",
     "orientation" : "portrait",
+    "ios": {
+      "bundleIdentifier": "com.oliviasteger.GroundWatchiOS"
+    },
+    "android": {
+      "package": "com.oliviasteger.GroundWatchiOS"
+    }
   }
 }
