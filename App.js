@@ -333,24 +333,6 @@ export default class GroundWatchiOS extends Component {
 
   }
 
-  _test = () => {
-    lat = this.state.latitude;
-    lon = this.state.longitude;
-    var obj = new CB.CloudObject("report");
-    obj.set("type", "fa fa-flag");
-    obj.set("latitude", lat);
-    obj.set("longitude", lon);
-    obj.save({
-      success: function(obj) {
-        Alert.alert("Your response has been recorded.");
-      },
-      error: function(err) {
-        Alert.alert("Please try again.")
-      }
-    });
-
-  }
-
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
   }
@@ -474,9 +456,6 @@ export default class GroundWatchiOS extends Component {
         <TouchableOpacity style={styles.medic}>
           <Button onPress={this._medicNeeded} title="Medic Needed" color="#FEFEFA" accessibilityLabel="Medic Needed"/>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.test}>
-          <Button onPress={this._test} title="Test" color="#FEFEFA" accessibilityLabel="Test"/>
-        </TouchableOpacity>
         <MapView style={styles.map}>
         {this.state.markers.map(marker => (
           <MapView.Marker
@@ -532,17 +511,6 @@ const styles = StyleSheet.create({
     bottom: 30,
     borderColor: '#ee4b28',
     backgroundColor: '#ee4b28',
-    marginVertical: 5,
-    top: 0
-  },
-  test: {
-    marginLeft: 40,
-    width: 250,
-    borderRadius: 5,
-    borderWidth: 1,
-    bottom: 30,
-    borderColor: '#0059b3',
-    backgroundColor: '#0059b3',
     marginVertical: 5,
     top: 0
   },
