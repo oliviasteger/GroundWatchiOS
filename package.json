@@ -1,6 +1,6 @@
 {
-  "name": "GroundWatchiOS",
-  "version": "0.0.3",
+  "name": "GroundWatch",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",

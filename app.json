@@ -1,16 +1,16 @@
 {
-  "name": "GroundWatchiOS",
-  "displayName": "GroundWatchiOS",
+  "name": "GroundWatch",
+  "displayName": "GroundWatch",
   "expo": {
-    "name": "GroundWatchiOS",
-    "slug": "GroundWatchiOS",
+    "name": "GroundWatch",
+    "slug": "GroundWatch",
     "sdkVersion": "20.0.0",
     "orientation" : "portrait",
     "ios": {
       "bundleIdentifier": "com.oliviasteger.GroundWatchiOS"
     },
     "android": {
-      "package": "com.oliviasteger.GroundWatchiOS"
+      "package": "com.oliviasteger.GroundWatch"
     }
   }
 }
