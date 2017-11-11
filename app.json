@@ -5,7 +5,8 @@
     "name": "GroundWatch",
     "slug": "GroundWatch",
     "sdkVersion": "20.0.0",
-    "orientation" : "portrait",
+    "orientation": "portrait",
+    "icon": "icon.png",
     "ios": {
       "bundleIdentifier": "com.oliviasteger.GroundWatchiOS"
     },
