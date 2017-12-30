@@ -5,14 +5,16 @@ import {
   Text,
   Button,
   View,
+  Timer,
   Image,
   Alert,
   Color,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  NetInfo // for storing data wirelessly
 } from 'react-native';
 import MapView from 'react-native-maps';
-import * as CB from 'cloudboost';
+import * as CB from 'cloudboost'; 
 import PropTypes from 'prop-types';
 var createReactClass = require('create-react-class');
 
@@ -33,6 +35,20 @@ const medic = require("./icons/medic.png");
 const target = require("./icons/target.png");
 const water = require("./icons/water.png");
 const flag = require("./icons/flag.png");
+
+function handleFirstConnectivityChange(isConnected) {
+  console.log('The application is ' + (isConnected ? 'online' : 'offline'));
+  NetInfo.isConnected.removeEventListener(
+    'connectionChange',
+    handleFirstConnectivityChange
+  );
+}// look at importing specific handlers for the apply
+NetInfo.isConnected.addEventListener(
+  'connectionChange',
+  handleFirstConnectivityChange
+);
+
+// var intervalID = setInterval(handleFirstConnectivityChange(), 50000);
 
 export default class GroundWatchiOS extends Component {
   constructor(props) {
@@ -297,6 +313,7 @@ export default class GroundWatchiOS extends Component {
   }
 
   componentDidMount() {
+    // var x = setTimeout(handleFirstConnectivityChange(), 50000);
     this.watchId = navigator.geolocation.watchPosition(
       (position) => {
         this.setState({
@@ -311,7 +328,6 @@ export default class GroundWatchiOS extends Component {
 
     lat = this.state.latitude;
     lon = this.state.longitude;
-
     this.getIncidents();
   }
 
