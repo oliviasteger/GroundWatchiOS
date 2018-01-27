@@ -14,7 +14,7 @@ import {
   NetInfo // for storing data wirelessly
 } from 'react-native';
 import MapView from 'react-native-maps';
-import * as CB from 'cloudboost'; 
+import * as CB from 'cloudboost';
 import PropTypes from 'prop-types';
 var createReactClass = require('create-react-class');
 
@@ -42,7 +42,7 @@ function handleFirstConnectivityChange(isConnected) {
     'connectionChange',
     handleFirstConnectivityChange
   );
-}// look at importing specific handlers for the apply
+}// look at \\mporting specific handlers for the apply
 NetInfo.isConnected.addEventListener(
   'connectionChange',
   handleFirstConnectivityChange
@@ -64,6 +64,7 @@ export default class GroundWatchiOS extends Component {
   getIncidents() {
     var date = Date();
     date = date.slice(4, -24);
+    console.log(date);
     var year;
     var month;
     var day;
@@ -119,7 +120,7 @@ export default class GroundWatchiOS extends Component {
       formatted = formatted = year + "/" + month + "/" + day;
       console.log(formatted);
     } else if (date.charAt(0) == "M") {
-      if (date.charAt(2) == "R") {
+      if (date.charAt(2) == "r") {
         month = "03";
         if (date.substr(4,2) == "01") {day = "01";} else if (date.substr(4,2) == "02") {day = "02"; year = date.substr(7,7);} else if (date.substr(4,2) == "03") {day = "03"; year = date.substr(7,7);} else if (date.substr(4,2) == "04") {day = "04"; year = date.substr(7,7);} else if (date.substr(4,2) == "05") {day = "05"; year = date.substr(7,7);} else if (date.substr(4,2) == "06") {day = "06"; year = date.substr(7,7);} else if (date.substr(4,2) == "07") {day = "07"; year = date.substr(7,7);}
         else if (date.substr(4,2) == "08") {day = "08"; year = date.substr(7,7);}
@@ -163,7 +164,7 @@ export default class GroundWatchiOS extends Component {
         console.log(formatted);
       }
     } else {
-        if (date.charAt(1) == "A") {
+        if (date.charAt(1) == "a") {
           month = "01";
           if (date.substr(4,2) == "01") {day = "01";} else if (date.substr(4,2) == "02") {day = "02"; year = date.substr(7,7);} else if (date.substr(4,2) == "03") {day = "03"; year = date.substr(7,7);} else if (date.substr(4,2) == "04") {day = "04"; year = date.substr(7,7);} else if (date.substr(4,2) == "05") {day = "05"; year = date.substr(7,7);} else if (date.substr(4,2) == "06") {day = "06"; year = date.substr(7,7);} else if (date.substr(4,2) == "07") {day = "07"; year = date.substr(7,7);}
           else if (date.substr(4,2) == "08") {day = "08"; year = date.substr(7,7);}
@@ -174,7 +175,7 @@ export default class GroundWatchiOS extends Component {
           formatted = formatted = year + "/" + month + "/" + day;
           console.log(formatted);
         } else {
-          if (date.charAt(2) == "L"){
+          if (date.charAt(2) == "l"){
             month = "07";
             if (date.substr(4,2) == "01") {day = "01";} else if (date.substr(4,2) == "02") {day = "02"; year = date.substr(7,7);} else if (date.substr(4,2) == "03") {day = "03"; year = date.substr(7,7);} else if (date.substr(4,2) == "04") {day = "04"; year = date.substr(7,7);} else if (date.substr(4,2) == "05") {day = "05"; year = date.substr(7,7);} else if (date.substr(4,2) == "06") {day = "06"; year = date.substr(7,7);} else if (date.substr(4,2) == "07") {day = "07"; year = date.substr(7,7);}
             else if (date.substr(4,2) == "08") {day = "08"; year = date.substr(7,7);}
@@ -309,6 +310,7 @@ export default class GroundWatchiOS extends Component {
       this.setState({
         markers: markers
       });
+      console.log(markers);
     }
   }
 
