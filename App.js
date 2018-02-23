@@ -89,7 +89,7 @@ export default class GroundWatchiOS extends Component {
         } else {
           formatted = date.slice(7,12) + "/12/" + date.slice(4,6);
         }
-    }
+
     var query = new CB.CloudQuery("report");
     query.setLimit(10000);
     query.greaterThan('createdAt', formatted);
@@ -303,6 +303,7 @@ export default class GroundWatchiOS extends Component {
     obj.set("type", "fa fa-bolt");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
+    // obj.set("createdAt", );
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
