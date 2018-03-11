@@ -27,6 +27,7 @@ var lon;
 var index = 0;
 var marker;
 var markerlist;
+var loggedDate;
 
 const eye = require("./icons/eye.png");
 const gun = require("./icons/gun.png");
@@ -61,34 +62,66 @@ export default class GroundWatchiOS extends Component {
     };
   }
 
+  getDate() {
+    var date = Date();
+    date = date.slice(4, -18);
+    if (date.slice(0,3) == "Jan") {
+      loggedDate = date.slice(7,12) + "/01/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Feb") {
+      loggedDate = date.slice(7,12) + "/02/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Mar") {
+      loggedDate = date.slice(7,12) + "/03/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Apr") {
+      loggedDate = date.slice(7,12) + "/04/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "May") {
+      loggedDate = date.slice(7,12) + "/05/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Jun") {
+      loggedDate = date.slice(7,12) + "/06/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Jul") {
+      loggedDate = date.slice(7,12) + "/07/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Aug") {
+      loggedDate = date.slice(7,12) + "/08/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Sep") {
+      loggedDate = date.slice(7,12) + "/09/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Oct") {
+      loggedDate = date.slice(7,12) + "/10/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Nov") {
+      loggedDate = date.slice(7,12) + "/11/" + date.slice(4,6);
+    } else {
+      loggedDate = date.slice(7,12) + "/12/" + date.slice(4,6);
+    }
+    loggedDate = [date.slice(0, 11), ',', date.slice(11)].join('')
+  }
+
   getIncidents() {
     var date = Date();
-    date = date.slice(4, -24);
-        if (date.slice(0,3) == "Jan") {
-          formatted = date.slice(7,12) + "/01/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Feb") {
-          formatted = date.slice(7,12) + "/02/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Mar") {
-          formatted = date.slice(7,12) + "/03/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Apr") {
-          formatted = date.slice(7,12) + "/04/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "May") {
-          formatted = date.slice(7,12) + "/05/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Jun") {
-          formatted = date.slice(7,12) + "/06/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Jul") {
-          formatted = date.slice(7,12) + "/07/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Aug") {
-          formatted = date.slice(7,12) + "/08/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Sep") {
-          formatted = date.slice(7,12) + "/09/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Oct") {
-          formatted = date.slice(7,12) + "/10/" + date.slice(4,6);
-        } else if (date.slice(0,3) == "Nov") {
-          formatted = date.slice(7,12) + "/11/" + date.slice(4,6);
-        } else {
-          formatted = date.slice(7,12) + "/12/" + date.slice(4,6);
-        }
+    date = date.slice(4, -18);
+    if (date.slice(0,3) == "Jan") {
+      formatted = date.slice(7,12) + "/01/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Feb") {
+      formatted = date.slice(7,12) + "/02/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Mar") {
+      formatted = date.slice(7,12) + "/03/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Apr") {
+      formatted = date.slice(7,12) + "/04/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "May") {
+      formatted = date.slice(7,12) + "/05/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Jun") {
+      formatted = date.slice(7,12) + "/06/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Jul") {
+      formatted = date.slice(7,12) + "/07/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Aug") {
+      formatted = date.slice(7,12) + "/08/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Sep") {
+      formatted = date.slice(7,12) + "/09/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Oct") {
+      formatted = date.slice(7,12) + "/10/" + date.slice(4,6);
+    } else if (date.slice(0,3) == "Nov") {
+      formatted = date.slice(7,12) + "/11/" + date.slice(4,6);
+    } else {
+      formatted = date.slice(7,12) + "/12/" + date.slice(4,6);
+    }
+    formatted = [date.slice(0, 11), ',', date.slice(11)].join('')
 
     var query = new CB.CloudQuery("report");
     query.setLimit(10000);
@@ -226,12 +259,14 @@ export default class GroundWatchiOS extends Component {
   }
 
   _tearGas = () => {
+    this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-eye");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
+    obj.set("timeLogged", loggedDate);
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
@@ -249,12 +284,14 @@ export default class GroundWatchiOS extends Component {
 
 
   _rubberBullets = () => {
+    this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-dot-circle-o");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
+    obj.set("timeLogged", loggedDate);
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
@@ -265,12 +302,14 @@ export default class GroundWatchiOS extends Component {
     });
   }
   _waterCannons = () => {
+    this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-tint");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
+    obj.set("timeLogged", loggedDate);
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
@@ -281,12 +320,14 @@ export default class GroundWatchiOS extends Component {
     });
   }
   _guns = () => {
+    this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-crosshairs");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
+    obj.set("timeLogged", loggedDate);
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
@@ -297,13 +338,14 @@ export default class GroundWatchiOS extends Component {
     });
   }
   _stunGrenades = () => {
+    this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-bolt");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
-    // obj.set("createdAt", );
+    obj.set("timeLogged", loggedDate);
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
@@ -314,12 +356,14 @@ export default class GroundWatchiOS extends Component {
     });
   }
   _medicNeeded = () => {
+    this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
     var obj = new CB.CloudObject("report");
     obj.set("type", "fa fa-plus-square");
     obj.set("latitude", lat);
     obj.set("longitude", lon);
+    obj.set("timeLogged", loggedDate);
     obj.save({
       success: function(obj) {
         Alert.alert("Your response has been recorded.");
