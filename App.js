@@ -125,7 +125,7 @@ export default class GroundWatchiOS extends Component {
 
     var query = new CB.CloudQuery("report");
     query.setLimit(10000);
-    query.greaterThan('createdAt', formatted);
+    query.greaterThan('timeLogged', formatted);
     query.find({
       success: function(list) {
         console.log(list);
