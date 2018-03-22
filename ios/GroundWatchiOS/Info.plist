@@ -39,10 +39,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>GroundWatch needs to use your location to accurately report the location of the violence reported.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>GroundWatch needs to use your location to accurately report the location of the violence reported.</string>
-	<key>NSAppTransportSecurity</key>
+<string>GroundWatch needs to use your location to accurately report the location of the violence reported.</string>
+<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
