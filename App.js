@@ -43,7 +43,8 @@ function handleFirstConnectivityChange(isConnected) {
     'connectionChange',
     handleFirstConnectivityChange
   );
-}// look at \\mporting specific handlers for the apply
+}// look at importing specific handlers for the apply
+
 NetInfo.isConnected.addEventListener(
   'connectionChange',
   handleFirstConnectivityChange
@@ -140,7 +141,7 @@ export default class GroundWatchiOS extends Component {
         }
       },
       error: function(err) {
-        Alert.alert("It seems that you are not connected to the internet. Please try again.")
+        Alert.alert("You aren't connected to the internet.")
       }
     })
 
@@ -258,6 +259,38 @@ export default class GroundWatchiOS extends Component {
     this.getIncidents();
   }
 
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
+
+  retryConnection(type) {
+    var counter = 0;
+    var timer = setInterval(function () {
+        if (NetInfo.getConnectionInfo() == "none" || NetInfo.getConnectionInfo() == "cellular" || NetInfo.getConnectionInfo() == "unknown") {
+            console.log('Not this time...');
+        } else if (NetInfo.getConnectionInfo() == "wifi") {
+            this.getDate();
+            lat = this.state.latitude;
+            lon = this.state.longitude;
+            var obj = new CB.CloudObject("report");
+            obj.set("type", type);
+            obj.set("latitude", lat);
+            obj.set("longitude", lon);
+            obj.set("timeLogged", loggedDate);
+            obj.save({
+              success: function(obj) {
+                Alert.alert("Your response has been recorded.");
+              },
+              error: function(err) {
+                Alert.alert("Please try again.")
+              }
+            });
+            clearInterval(timer);
+        }
+        counter++;
+    }, 50000);
+  }
+
   _tearGas = () => {
     this.getDate();
     lat = this.state.latitude;
@@ -272,16 +305,10 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("Your response has been recorded.");
       },
       error: function(err) {
-        Alert.alert("Please try again.")
+        retryConnection("fa fa-eye");
       }
     });
-
   }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId);
-  }
-
 
   _rubberBullets = () => {
     this.getDate();
@@ -297,7 +324,7 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("Your response has been recorded.");
       },
       error: function(err) {
-        Alert.alert("Please try again.")
+        retryConnection("fa fa-dot-circle-o");
       }
     });
   }
@@ -315,7 +342,7 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("Your response has been recorded.");
       },
       error: function(err) {
-        Alert.alert("Please try again.")
+        retryConnection("fa fa-tint");
       }
     });
   }
@@ -333,7 +360,7 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("Your response has been recorded.");
       },
       error: function(err) {
-        Alert.alert("Please try again.")
+        retryConnection("fa fa-crosshairs");
       }
     });
   }
@@ -351,7 +378,7 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("Your response has been recorded.");
       },
       error: function(err) {
-        Alert.alert("Please try again.")
+        retryConnection("fa fa-bolt");
       }
     });
   }
@@ -369,7 +396,7 @@ export default class GroundWatchiOS extends Component {
         Alert.alert("Your response has been recorded.");
       },
       error: function(err) {
-        Alert.alert("Please try again.")
+        retryConnection("fa fa-plus-square");
       }
     });
   }
