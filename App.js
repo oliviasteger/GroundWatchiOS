@@ -14,11 +14,26 @@ import {
   NetInfo // for storing data wirelessly
 } from 'react-native';
 import MapView from 'react-native-maps';
-import * as CB from 'cloudboost';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import PropTypes from 'prop-types';
 var createReactClass = require('create-react-class');
 
-CB.CloudApp.init('veudsushakhr', 'a4483f55-e614-44cb-a5ee-f7f62a43d39e');
+var firebaseConfig = {
+    apiKey: "AIzaSyAxxfDZ9W1x_iWbJOvgJejUgYpbOk_UqMc",
+    authDomain: "groundwatch-1b26e.firebaseapp.com",
+    databaseURL: "https://groundwatch-1b26e.firebaseio.com",
+    projectId: "groundwatch-1b26e",
+    storageBucket: "groundwatch-1b26e.appspot.com",
+    messagingSenderId: "812223738339",
+    appId: "1:812223738339:web:340ad41b9c1907758f30d6",
+    measurementId: "G-7E09WER0ZH"
+  };
+  firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  var db = firebase.firestore();
+
 
 var latitude;
 var longitude;
@@ -49,8 +64,6 @@ NetInfo.isConnected.addEventListener(
   'connectionChange',
   handleFirstConnectivityChange
 );
-
-// var intervalID = setInterval(handleFirstConnectivityChange(), 50000);
 
 export default class GroundWatchiOS extends Component {
   constructor(props) {
@@ -124,20 +137,22 @@ export default class GroundWatchiOS extends Component {
     }
     formatted = [date.slice(0, 11), ',', date.slice(11)].join('')
 
-    var query = new CB.CloudQuery("report");
-    query.setLimit(10000);
-    query.greaterThan('timeLogged', formatted);
-    query.find({
-      success: function(list) {
-        console.log(list);
-        for (var i = 0; i < list.length; i++) {
-          var lat = list[i].document.latitude;
-          var lon = list[i].document.longitude;
+    db.collection("reports").get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        let now = new Date();
+        let docDate = new Date(doc.data().timeLogged);
+        const oneDay = 60 * 60 * 24 * 1000;
+        if ((now - docDate) < oneDay) {
+          var lat = doc.data().latitude;
+          var lon = doc.data().longitude;
           var latlong = {
-            "latitude": lat,
-            "longitude": lon
+            "lat": lat,
+            "lng": lon
           };
-          mapIncident(list, latlong, i);
+          mapIncident(doc, latlong);
+        }
         }
       },
       error: function(err) {
@@ -145,8 +160,8 @@ export default class GroundWatchiOS extends Component {
       }
     })
 
-    mapIncident = (list, latlong, i) => {
-      var type = list[i].document.type;
+    mapIncident = (doc, latlong) => {
+      var type = doc.data().type;
       if (type == "fa fa-eye") {
         index ++;
         name = 'marker' + index;
@@ -272,19 +287,19 @@ export default class GroundWatchiOS extends Component {
             this.getDate();
             lat = this.state.latitude;
             lon = this.state.longitude;
-            var obj = new CB.CloudObject("report");
-            obj.set("type", type);
-            obj.set("latitude", lat);
-            obj.set("longitude", lon);
-            obj.set("timeLogged", loggedDate);
-            obj.save({
-              success: function(obj) {
-                Alert.alert("Your response has been recorded.");
-              },
-              error: function(err) {
-                Alert.alert("Please try again.")
-              }
-            });
+            db.collection("reports").add({
+              latitude: lat,
+              longitude: lon,
+              timeLogged: loggedDate,
+              type: type
+            })
+            .then(function (docRef) {
+              Alert.alert("Your response has been recorded.");
+            })
+            .catch(function (error) {
+              Alert.alert("Please try again.")
+            })
+
             clearInterval(timer);
         }
         counter++;
@@ -295,110 +310,104 @@ export default class GroundWatchiOS extends Component {
     this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
-    var obj = new CB.CloudObject("report");
-    obj.set("type", "fa fa-eye");
-    obj.set("latitude", lat);
-    obj.set("longitude", lon);
-    obj.set("timeLogged", loggedDate);
-    obj.save({
-      success: function(obj) {
-        Alert.alert("Your response has been recorded.");
-      },
-      error: function(err) {
-        retryConnection("fa fa-eye");
-      }
-    });
+    db.collection("reports").add({
+      latitude: lat,
+      longitude: lon,
+      timeLogged: loggedDate,
+      type: "fa fa-eye"
+    })
+    .then(function (docRef) {
+      Alert.alert("Your response has been recorded.");
+    })
+    .catch(function (error) {
+      retryConnection("fa fa-eye");
+    })
   }
 
   _rubberBullets = () => {
     this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
-    var obj = new CB.CloudObject("report");
-    obj.set("type", "fa fa-dot-circle-o");
-    obj.set("latitude", lat);
-    obj.set("longitude", lon);
-    obj.set("timeLogged", loggedDate);
-    obj.save({
-      success: function(obj) {
-        Alert.alert("Your response has been recorded.");
-      },
-      error: function(err) {
-        retryConnection("fa fa-dot-circle-o");
-      }
-    });
+    db.collection("reports").add({
+      latitude: lat,
+      longitude: lon,
+      timeLogged: loggedDate,
+      type: "fa fa-dot-circle-o"
+    })
+    .then(function (docRef) {
+      Alert.alert("Your response has been recorded.");
+    })
+    .catch(function (error) {
+      retryConnection("fa fa-dot-circle-o");
+    })
   }
   _waterCannons = () => {
     this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
-    var obj = new CB.CloudObject("report");
-    obj.set("type", "fa fa-tint");
-    obj.set("latitude", lat);
-    obj.set("longitude", lon);
-    obj.set("timeLogged", loggedDate);
-    obj.save({
-      success: function(obj) {
-        Alert.alert("Your response has been recorded.");
-      },
-      error: function(err) {
-        retryConnection("fa fa-tint");
-      }
-    });
+    db.collection("reports").add({
+      latitude: lat,
+      longitude: lon,
+      timeLogged: loggedDate,
+      type: "fa fa-tint"
+    })
+    .then(function (docRef) {
+      Alert.alert("Your response has been recorded.");
+    })
+    .catch(function (error) {
+      retryConnection("fa fa-tint");
+    })
   }
   _guns = () => {
     this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
-    var obj = new CB.CloudObject("report");
-    obj.set("type", "fa fa-crosshairs");
-    obj.set("latitude", lat);
-    obj.set("longitude", lon);
-    obj.set("timeLogged", loggedDate);
-    obj.save({
-      success: function(obj) {
-        Alert.alert("Your response has been recorded.");
-      },
-      error: function(err) {
-        retryConnection("fa fa-crosshairs");
-      }
-    });
+    db.collection("reports").add({
+      latitude: lat,
+      longitude: lon,
+      timeLogged: loggedDate,
+      type: "fa fa-crosshairs"
+    })
+    .then(function (docRef) {
+      Alert.alert("Your response has been recorded.");
+    })
+    .catch(function (error) {
+      retryConnection("fa fa-crosshairs");
+    })
   }
   _stunGrenades = () => {
     this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
-    var obj = new CB.CloudObject("report");
-    obj.set("type", "fa fa-bolt");
-    obj.set("latitude", lat);
-    obj.set("longitude", lon);
-    obj.set("timeLogged", loggedDate);
-    obj.save({
-      success: function(obj) {
-        Alert.alert("Your response has been recorded.");
-      },
-      error: function(err) {
-        retryConnection("fa fa-bolt");
-      }
-    });
+    db.collection("reports").add({
+      latitude: lat,
+      longitude: lon,
+      timeLogged: loggedDate,
+      type: "fa fa-bolt"
+    })
+    .then(function (docRef) {
+      Alert.alert("Your response has been recorded.");
+    })
+    .catch(function (error) {
+      retryConnection("fa fa-bolt");
+    })
   }
   _medicNeeded = () => {
     this.getDate();
     lat = this.state.latitude;
     lon = this.state.longitude;
-    var obj = new CB.CloudObject("report");
-    obj.set("type", "fa fa-plus-square");
-    obj.set("latitude", lat);
-    obj.set("longitude", lon);
-    obj.set("timeLogged", loggedDate);
-    obj.save({
-      success: function(obj) {
-        Alert.alert("Your response has been recorded.");
-      },
-      error: function(err) {
-        retryConnection("fa fa-plus-square");
-      }
-    });
+    db.collection("reports").add({
+      latitude: lat,
+      longitude: lon,
+      timeLogged: loggedDate,
+      type: "fa fa-plus-square"
+    })
+    .then(function (docRef) {
+      Alert.alert("Your response has been recorded.");
+    })
+    .catch(function (error) {
+      retryConnection("fa fa-plus-square");
+    })
   }
 
   render() {

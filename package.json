@@ -11,6 +11,7 @@
     "cloudboost": "^2.0.264",
     "create-react-class": "^15.6.0",
     "expo": "20.0.0",
+    "firebase": "^7.6.1",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
     "react-native": "https://github.com/expo/react-native/archive/sdk-20.0.0.tar.gz",
